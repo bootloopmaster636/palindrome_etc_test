@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:suitmedia_test/logic/profile_logic.dart';
 import 'package:suitmedia_test/logic/user_logic.dart';
 import 'package:suitmedia_test/screen/third_screen.dart';
 import 'package:tinycolor2/tinycolor2.dart';
@@ -40,15 +41,19 @@ class Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final profile = Get.put(ProfileController());
+
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text('Welcome'),
-          const Text(
-            'John Doe',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          Obx(
+            () => Text(
+              profile.name.value,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
           ),
           const SelectedUser(),
           SizedBox(

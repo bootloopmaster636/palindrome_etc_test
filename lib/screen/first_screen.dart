@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
+import 'package:suitmedia_test/logic/profile_logic.dart';
+import 'package:suitmedia_test/logic/utils.dart';
 import 'package:suitmedia_test/screen/second_screen.dart';
 import 'package:tinycolor2/tinycolor2.dart';
+import 'package:toastification/toastification.dart';
 
 class FirstScreen extends StatelessWidget {
   const FirstScreen({super.key});
@@ -26,8 +30,17 @@ class FirstScreen extends StatelessWidget {
   }
 }
 
-class Content extends StatelessWidget {
+class Content extends StatefulWidget {
   const Content({super.key});
+
+  @override
+  State<Content> createState() => _ContentState();
+}
+
+class _ContentState extends State<Content> {
+  final nameCtl = TextEditingController();
+  final palindromeCtl = TextEditingController();
+  final profile = Get.put(ProfileController());
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +54,10 @@ class Content extends StatelessWidget {
         ),
         const Gap(52),
         TextField(
+          controller: nameCtl,
+          onChanged: (value) {
+            profile.setName(value);
+          },
           decoration: InputDecoration(
             filled: true,
             fillColor: Colors.white,
@@ -55,6 +72,7 @@ class Content extends StatelessWidget {
         ),
         const Gap(16),
         TextField(
+          controller: palindromeCtl,
           decoration: InputDecoration(
             filled: true,
             fillColor: Colors.white,
@@ -78,7 +96,44 @@ class Content extends StatelessWidget {
               ),
               backgroundColor: TinyColor.fromString('#2B637B').color,
             ),
-            onPressed: () {},
+            onPressed: () {
+              final isPalindrome = palindromeChecker(palindromeCtl.text);
+              if (isPalindrome) {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text('Palindrome'),
+                        content: const Text('isPalindrome'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      );
+                    });
+              } else {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text('Palindrome'),
+                        content: const Text('not palindrome'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      );
+                    });
+              }
+            },
             child: const Text('CHECK'),
           ),
         ),
