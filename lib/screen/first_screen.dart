@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:tinycolor2/tinycolor2.dart';
 
 class FirstScreen extends StatelessWidget {
   const FirstScreen({super.key});
@@ -37,7 +38,7 @@ class Content extends StatelessWidget {
           foregroundImage: AssetImage('assets/btn-add-photo.png'),
           backgroundColor: Colors.transparent,
         ),
-        const Gap(48),
+        const Gap(36),
         TextField(
           decoration: InputDecoration(
             filled: true,
@@ -49,6 +50,50 @@ class Content extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide.none,
             ),
+          ),
+        ),
+        const Gap(16),
+        TextField(
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.white,
+            hintText: 'Palindrome',
+            hintStyle: const TextStyle(color: Colors.black45),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide.none,
+            ),
+          ),
+        ),
+        const Gap(36),
+        SizedBox(
+          width: double.infinity,
+          height: 48,
+          child: FilledButton(
+            style: FilledButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              backgroundColor: TinyColor.fromString('#2B637B').color,
+            ),
+            onPressed: () {},
+            child: const Text('CHECK'),
+          ),
+        ),
+        const Gap(16),
+        SizedBox(
+          width: double.infinity,
+          height: 48,
+          child: FilledButton(
+            style: FilledButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              backgroundColor: TinyColor.fromString('#2B637B').color,
+            ),
+            onPressed: () {},
+            child: const Text('NEXT'),
           ),
         ),
       ],
