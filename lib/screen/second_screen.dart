@@ -52,7 +52,7 @@ class Content extends StatelessWidget {
           Obx(
             () => Text(
               profile.name.value,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
           ),
           const SelectedUser(),
@@ -89,11 +89,12 @@ class SelectedUser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(UserController());
-    return Obx(
-      () => Expanded(
-        child: Center(
-          child: Text(
+    final controller = Get.put(ProfileController());
+
+    return Expanded(
+      child: Center(
+        child: Obx(
+          () => Text(
             'Selected User: ${controller.selectedUser.value.firstName} ${controller.selectedUser.value.lastName}',
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
           ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:suitmedia_test/data/model/users.dart';
+import 'package:suitmedia_test/logic/profile_logic.dart';
 import 'package:suitmedia_test/logic/user_logic.dart';
 import 'package:toastification/toastification.dart';
 
@@ -122,7 +123,7 @@ class UserTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<UserController>();
+    final controller = Get.put(ProfileController());
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: InkWell(
