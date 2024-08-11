@@ -47,6 +47,7 @@ class UsersList extends StatefulWidget {
 class _UsersListState extends State<UsersList> {
   final scrollCtl = ScrollController();
   var pageNum = 1;
+  var isLoading = false;
 
   @override
   void initState() {

@@ -4,18 +4,21 @@ import 'package:suitmedia_test/data/model/users.dart';
 
 class UserController extends GetxController {
   final usersList = <UserModel>[].obs;
+  int total = 0;
 
   Future<void> getUsers({int? page, int? perPage}) async {
-    final response = await UserApi().getUsers(page ?? 1, perPage);
-    final List<UserModel> newUsersList = (response.body['data'] as List<dynamic>).map((data) {
-      return UserModel.fromJson(data as Map<String, dynamic>);
-    }).toList();
+    if (usersList.length != total || usersList.isEmpty) {
+      final response = await UserApi().getUsers(page ?? 1, perPage);
+      final List<UserModel> newUsersList = (response.body['data'] as List<dynamic>).map((data) {
+        return UserModel.fromJson(data as Map<String, dynamic>);
+      }).toList();
 
-    final total = response.body['total'] as int;
+      total = response.body['total'] as int;
 
-    if (usersList.length <= total) {
-      // append ke list sesuai dengan indeks
-      usersList.addAll(newUsersList);
+      if (usersList.length <= total) {
+        // append ke list sesuai dengan indeks
+        usersList.addAll(newUsersList);
+      }
     }
   }
 
