@@ -95,7 +95,9 @@ class SelectedUser extends StatelessWidget {
       child: Center(
         child: Obx(
           () => Text(
-            'Selected User: ${controller.selectedUser.value.firstName} ${controller.selectedUser.value.lastName}',
+            controller.selectedUser.value.firstName == ''
+                ? 'Selected User Name'
+                : '${controller.selectedUser.value.firstName} ${controller.selectedUser.value.lastName}',
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
           ),
         ),
