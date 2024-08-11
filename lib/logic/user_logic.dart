@@ -4,6 +4,12 @@ import 'package:suitmedia_test/data/model/users.dart';
 
 class UserController extends GetxController {
   final usersList = <UserModel>[].obs;
+  final selectedUser = const UserModel(
+    imageUrl: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+  ).obs;
   int total = 0;
 
   Future<void> getUsers({int? page, int? perPage}) async {
@@ -25,6 +31,10 @@ class UserController extends GetxController {
   Future<void> refreshUsers() {
     resetUsers();
     return getUsers(page: 1);
+  }
+
+  Future<void> selectUser(UserModel user) async {
+    selectedUser.value = user;
   }
 
   void resetUsers() {

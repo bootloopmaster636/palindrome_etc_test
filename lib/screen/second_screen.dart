@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
+import 'package:suitmedia_test/logic/user_logic.dart';
 import 'package:suitmedia_test/screen/third_screen.dart';
 import 'package:tinycolor2/tinycolor2.dart';
 
@@ -82,11 +84,14 @@ class SelectedUser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Expanded(
-      child: Center(
-        child: Text(
-          'Selected',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+    final controller = Get.put(UserController());
+    return Obx(
+      () => Expanded(
+        child: Center(
+          child: Text(
+            'Selected User: ${controller.selectedUser.value.firstName} ${controller.selectedUser.value.lastName}',
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+          ),
         ),
       ),
     );

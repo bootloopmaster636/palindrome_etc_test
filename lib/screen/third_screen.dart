@@ -2,7 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:suitmedia_test/data/model/users.dart';
 import 'package:suitmedia_test/logic/user_logic.dart';
+import 'package:toastification/toastification.dart';
 
 class ThirdScreen extends StatelessWidget {
   const ThirdScreen({super.key});
@@ -120,10 +122,27 @@ class UserTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<UserController>();
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          controller.selectUser(UserModel(
+            imageUrl: imageUrl,
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+          ));
+
+          toastification.show(
+            context: context, // optional if you use ToastificationWrapper
+            title: const Text('User have been selected, you can go back now'),
+            description: const Text(
+                'not going back automatically because the question said: "(don\'t create a new screen, just continue the current screen)."'),
+            autoCloseDuration: const Duration(seconds: 5),
+            alignment: Alignment.bottomCenter,
+          );
+        },
         child: Row(
           // tidak jadi pakai listtile karena layoutnya kurang rapi
           crossAxisAlignment: CrossAxisAlignment.center,
