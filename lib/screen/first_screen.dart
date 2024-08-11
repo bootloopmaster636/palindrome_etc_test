@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:suitmedia_test/screen/second_screen.dart';
 import 'package:tinycolor2/tinycolor2.dart';
 
 class FirstScreen extends StatelessWidget {
@@ -15,9 +16,9 @@ class FirstScreen extends StatelessWidget {
             'assets/first-bg.png',
             fit: BoxFit.cover,
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32),
-            child: const Content(),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 32),
+            child: Content(),
           ),
         ],
       ),
@@ -38,7 +39,7 @@ class Content extends StatelessWidget {
           foregroundImage: AssetImage('assets/btn-add-photo.png'),
           backgroundColor: Colors.transparent,
         ),
-        const Gap(36),
+        const Gap(52),
         TextField(
           decoration: InputDecoration(
             filled: true,
@@ -92,7 +93,12 @@ class Content extends StatelessWidget {
               ),
               backgroundColor: TinyColor.fromString('#2B637B').color,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SecondScreen()),
+              );
+            },
             child: const Text('NEXT'),
           ),
         ),
