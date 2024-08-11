@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
+import 'package:suitmedia_test/logic/user_logic.dart';
 
 class ThirdScreen extends StatelessWidget {
   const ThirdScreen({super.key});
@@ -25,20 +27,79 @@ class ThirdScreen extends StatelessWidget {
           },
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-        child: ListView(
-          children: [
-            UserTile(
-              imageUrl: 'https://api.dicebear.com/9.x/thumbs/png?seed=Boo',
-              firstName: 'John',
-              lastName: 'Doe',
-              email: 'aaa.bbb@mail.com',
-            )
-          ],
-        ),
+      body: const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+        child: UsersList(),
       ),
     );
+  }
+}
+
+class UsersList extends StatefulWidget {
+  const UsersList({
+    super.key,
+  });
+
+  @override
+  State<UsersList> createState() => _UsersListState();
+}
+
+class _UsersListState extends State<UsersList> {
+  final scrollCtl = ScrollController();
+  var pageNum = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    scrollCtl.addListener(_scrollListener);
+    final controller = Get.put(UserController());
+    controller.getUsers(page: 1, perPage: 10);
+  }
+
+  @override
+  void dispose() {
+    Get.delete<UserController>();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final userCtl = Get.find<UserController>();
+
+    return Obx(
+      () => RefreshIndicator(
+        onRefresh: () async {
+          pageNum = 1;
+          await userCtl.refreshUsers();
+        },
+        child: userCtl.usersList.isEmpty
+            ? const Center(
+                child: Text('No data available'),
+              )
+            : ListView.separated(
+                controller: scrollCtl,
+                separatorBuilder: (context, index) => const Divider(),
+                itemCount: userCtl.usersList.length,
+                itemBuilder: (context, index) {
+                  final user = userCtl.usersList[index];
+                  return UserTile(
+                    imageUrl: user.imageUrl,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email,
+                  );
+                },
+              ),
+      ),
+    );
+  }
+
+  void _scrollListener() {
+    if (scrollCtl.position.pixels == scrollCtl.position.maxScrollExtent) {
+      final controller = Get.find<UserController>();
+      pageNum++;
+      controller.getUsers(page: pageNum, perPage: 10);
+    }
   }
 }
 
@@ -58,8 +119,8 @@ class UserTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 56,
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: InkWell(
         onTap: () {},
         child: Row(
@@ -73,6 +134,8 @@ class UserTile extends StatelessWidget {
               clipBehavior: Clip.antiAlias,
               child: CachedNetworkImage(
                 imageUrl: imageUrl,
+                width: 56,
+                height: 56,
               ),
             ),
             const Gap(16),
